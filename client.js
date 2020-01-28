@@ -43,45 +43,66 @@ const employees = [
 
 console.log( employees );
 
-function bonusCalculator(employeeName, bonus, compensation, total){
-  let employeeObject = {
-    name: employeeName,
-    bonusPercentage: bonus,
-    totalCompensation: compensation,
-    totalBonus: total
-  };
-
-  return employeeObject;
-}
-
-function calculateBonus(salary, rating, numberYears){
-  let bonus = 0;
+//function that calculates salary + the bonus.
+function calculateBonus(numberYears, salary, rating ){
+  let bonusPercent = 0;
   if(rating <= 2){
-    return bonus;
+    bonusPercent = bonusPercent;
   }
   else if(rating === 3){
-    bonus = salary * .04;
+    bonusPercent = bonusPercent + .04;
 
   }
   else if(rating === 4){
-    bonus = salary * .06;
+    bonusPercent = bonusPercent + .06;
 
   }
   else if(rating === 5){
-    bonus = salary * .1;
+    bonusPercent = bonusPercent + .1;
 
   }
   if(numberYears.length >= 4){
-    let fifteenYearBonus = salary * .05;
-    bonus= bonus + fifteenYearBonus;
+    bonusPercent= bonusPercent + .05;
+    //checking to see if they have been an employee for 15 or more years. if they have, it adds 5% to bonus
   }
   if(salary > 65000) {
-    let adjuster = salary * .01;
-    bonus= bonus - adjuster;
+    bonusPercent= bonusPercent - .01;
+  }//if their salary is over 65000, then this subtracts 1% from the total bonus
+  if(bonusPercent > .13){
+    bonusPercent = .13;
   }
-  return bonus;
+  let totalSalary = (bonusPercent * salary) + salary;
+  //console.log('testing what bonus is ', bonusPercent * salary);
+  return {totalSalary: totalSalary, bonusPercent: bonusPercent};
+
 }
-console.log(calculateBonus(100000, 4,'80968'));
-//console.log(bonusCalculator('Robert', '26835', '66000', 1));
+
+function bonusCalculator(employeesArray){
+  let newEmployeesArray = [];
+  for (i=0; i <employeesArray.length; i++){
+    let longevity = employeesArray[i].employeeNumber;
+    let employeeSalary = parseInt(employeesArray[i].annualSalary); //parseInt turns the employee salary into an integer so that the calculations work
+    let employeeRating = employeesArray[i].reviewRating;
+    let bonus = calculateBonus(longevity, employeeSalary, employeeRating);
+    let employeeObject = {
+       nameOfEmployee: employeesArray[i].name,
+       bonusPercentage: bonus.bonusPercent,
+       totalCompensation: bonus.totalSalary,
+       totalBonus:bonus.bonusPercent * bonus.totalSalary
+     };
+     newEmployeesArray.push(employeeObject);
+
+  }
+  return newEmployeesArray;
+
+
+  //return employeeObject;
+}
+console.log(bonusCalculator(employees));
+
+
+
+//console.log(bonusCalculator(employees));
 // str = '12345';
 // console.log(str.length);
+//
