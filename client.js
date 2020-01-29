@@ -73,8 +73,7 @@ function calculateBonus(numberYears, salary, rating ){
   }
   let totalSalary = (bonusPercent * salary) + salary;
   //console.log('testing what bonus is ', bonusPercent * salary);
-  return {totalSalary: totalSalary, bonusPercent: bonusPercent};
-
+  return {totalSalary: totalSalary, bonusPercent: bonusPercent};//these two get passed into a new object in bonusCalculator
 }
 
 function bonusCalculator(employeesArray){
@@ -83,26 +82,16 @@ function bonusCalculator(employeesArray){
     let longevity = employeesArray[i].employeeNumber;
     let employeeSalary = parseInt(employeesArray[i].annualSalary); //parseInt turns the employee salary into an integer so that the calculations work
     let employeeRating = employeesArray[i].reviewRating;
-    let bonus = calculateBonus(longevity, employeeSalary, employeeRating);
+    let bonus = calculateBonus(longevity, employeeSalary, employeeRating);//this is the object that recieves the information from calculateBonus. so {totalSalary: totalSalary, bonusPercent: bonusPercent} goes into here
     let employeeObject = {
        nameOfEmployee: employeesArray[i].name,
-       bonusPercentage: bonus.bonusPercent,
-       totalCompensation: bonus.totalSalary,
-       totalBonus:bonus.bonusPercent * bonus.totalSalary
+       bonusPercentage: bonus.bonusPercent, //takes the bonusPercent from the bonus object. the bonusPercent comes from the calculateBonus function
+       totalCompensation: bonus.totalSalary, //totalSalary comes from the calculateBonus function
+       totalBonus: bonus.bonusPercent * bonus.totalSalary
      };
-     newEmployeesArray.push(employeeObject);
+     newEmployeesArray.push(employeeObject); //puts all of the employeeObjects into the new array
 
   }
   return newEmployeesArray;
-
-
-  //return employeeObject;
 }
 console.log(bonusCalculator(employees));
-
-
-
-//console.log(bonusCalculator(employees));
-// str = '12345';
-// console.log(str.length);
-//
